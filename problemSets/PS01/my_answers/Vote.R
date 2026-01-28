@@ -138,7 +138,7 @@ mep_yes <- valid_votes %>%
   )
 vote_cohesion_plot <- ggplot(mep_yes, aes(x = reorder(EPG, prop_yes, FUN = median), y = prop_yes, fill = EPG)) +
   geom_boxplot() +
-  coord_flip() +  # horizontal for readability
+  coord_flip() +  
   scale_fill_brewer(palette = "Set2") +
   labs(
     title = "Cohesion of EP Groups in EP1 (Proportion of Yes Votes)",
@@ -192,36 +192,6 @@ ggsave(
   units = "in"
 )
 
-
-#Graph 5 
-library(dplyr)
-library(ggplot2)
-ep_group_yes <- combined_ep1 %>%
-  filter(VoteLabel %in% c("Yes", "No", "Abstain"), EPG != "0") %>%
-  group_by(EPG) %>%
-  summarise(
-    avg_yes = mean(VoteLabel == "Yes"),
-    .groups = "drop"
-  )
-p <- ggplot(ep_group_yes, aes(x = reorder(EPG, avg_yes), y = avg_yes, fill = EPG)) +
-  geom_col() +
-  geom_text(aes(label = round(avg_yes, 2)), hjust = -0.1, size = 3) +
-  coord_flip() +
-  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
-  labs(
-    title = "EP Group Cohesion: Average Yes Votes (EP1)",  # updated title
-    x = "EP Group",
-    y = "Average Proportion Yes"
-  ) +
-  theme_minimal(base_size = 12) +
-  theme(legend.position = "none")
-ggsave(
-  plot = p,
-  filename = "Vote_Graph_5.pdf",
-  width = 8,    # width in inches
-  height = 6,   # height in inches
-  units = "in"
-)
 
 
 
